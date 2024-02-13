@@ -309,7 +309,7 @@
             const data = await response.json();
             console.log(data);
 
-            let newJobs = data.records.filter(record => record.fields['상태'] === '채용 중');
+            let newJobs = data.records.filter(record => record.fields['status'] === '채용 중');
             jobs = jobs.concat(newJobs);
 
             offset = data.offset || '';
@@ -326,12 +326,12 @@
 
         // 모든 작업 항목에 대해 반복하며 도메인 값을 Set에 추가
         jobs.forEach(job => {
-            if (job.fields['도메인']) {
+            if (job.fields['domain']) {
                 // 도메인 값이 배열인 경우 모든 항목을 추가, 그렇지 않으면 단일 값을 추가
-                if (Array.isArray(job.fields['도메인'])) {
-                    job.fields['도메인'].forEach(domain => domainSet.add(domain));
+                if (Array.isArray(job.fields['domain'])) {
+                    job.fields['domain'].forEach(domain => domainSet.add(domain));
                 } else {
-                    domainSet.add(job.fields['도메인']);
+                    domainSet.add(job.fields['domain']);
                 }
             }
         });
@@ -357,7 +357,7 @@
     function filterJobs() {
         const selectedDomains = Array.from(document.querySelectorAll('#domainFilter input:checked')).map(input => input.value);
         filteredJobs = jobs.filter(job => {
-            const jobDomains = job.fields['도메인'] || [];
+            const jobDomains = job.fields['domain'] || [];
             return selectedDomains.length === 0 || selectedDomains.some(domain => jobDomains.includes(domain));
         });
 
@@ -402,26 +402,26 @@
             }
 
                // '요구 경력'과 '요구 경력max' 값을 조건에 따라 문자열 생성
-            const experienceMin = job.fields['요구 경력'] || '0'; // '요구 경력'이 없는 경우 '0'으로 처리
-            const experienceMax = job.fields['요구 경력max']; // '요구 경력max' 값 확인
+            const experienceMin = job.fields['req'] || '0'; // '요구 경력'이 없는 경우 '0'으로 처리
+            const experienceMax = job.fields['req(max)']; // '요구 경력max' 값 확인
             const experienceText = experienceMax ? `${experienceMin}-${experienceMax}년` : `${experienceMin}년`; // '요구 경력max' 존재 여부에 따라 문자열 결정
            
             
             row.insertCell(0).innerText = experienceText;
 
             const companyCell = row.insertCell(1); // '회사명' 셀 생성
-            if (job.fields['회사명(링크)']) { // '회사명(링크)'가 있는 경우
+            if (job.fields['company(url)']) { // '회사명(링크)'가 있는 경우
                 const companyLink = document.createElement('a');
-                companyLink.href = job.fields['회사명(링크)'];
+                companyLink.href = job.fields['company(url)'];
                 companyLink.target = '_blank';
-                companyLink.textContent = job.fields['회사명'];
+                companyLink.textContent = job.fields['company'];
                 companyCell.appendChild(companyLink);
             } else {
-                companyCell.textContent = job.fields['회사명']; // 링크 없이 텍스트만 추가
+                companyCell.textContent = job.fields['company']; // 링크 없이 텍스트만 추가
             }
 
             const domainCell = row.insertCell(2);
-            const domains = job.fields['도메인'] || [];
+            const domains = job.fields['domain'] || [];
             domains.forEach(domain => {
                 const domainTag = document.createElement('span'); // 태그로 사용할 span 요소 생성
                 domainTag.classList.add('domain-tag'); // 태그 스타일 적용
@@ -430,16 +430,16 @@
         });
 
             
-            row.insertCell(3).innerText = job.fields['직무'] || '';
-            row.insertCell(4).innerText = job.fields['서비스소개'] || '';
-            row.insertCell(5).innerText = job.fields['구분'] || '';
-            row.insertCell(6).innerText = convertDateFormat(job.fields['마감일']); // '마감일'을 새로운 형식으로 변환
-            row.insertCell(7).innerText = convertDateFormat(job.fields['등록일']);
+            row.insertCell(3).innerText = job.fields['position'] || '';
+            row.insertCell(4).innerText = job.fields['service'] || '';
+            row.insertCell(5).innerText = job.fields['sort'] || '';
+            row.insertCell(6).innerText = convertDateFormat(job.fields['upload']); // '마감일'을 새로운 형식으로 변환
+            row.insertCell(7).innerText = convertDateFormat(job.fields['deadline']);
 
-            if (job.fields['직무(링크)']) { // '직무(링크)' 필드가 존재하는 경우에만 클릭 이벤트 핸들러 추가
+            if (job.fields['position(url)']) { // '직무(링크)' 필드가 존재하는 경우에만 클릭 이벤트 핸들러 추가
                 row.style.cursor = 'pointer'; // 마우스 커서를 포인터로 변경
                 row.addEventListener('click', function() {
-                    window.open(job.fields['직무(링크)'], '_blank'); // 새 탭에서 '직무(링크)' 열기
+                    window.open(job.fields['position(url)'], '_blank'); // 새 탭에서 '직무(링크)' 열기
                 });
             }
         });
