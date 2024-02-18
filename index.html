@@ -12,9 +12,7 @@
             }
 
             main.container {
-                
-                
-                max-width: 1300;
+                max-width: 1400px;
                 margin: auto; /*가운데정렬*/
             }
 
@@ -59,6 +57,18 @@
             }
             body[data-theme='dark'] .even-row {
                 background-color: #3A3A3C; /* 다크모드에 적합한 색, 홀수 행보다 약간 밝음 */
+            }
+                /* 다크 모드에서 필터 메뉴의 배경색 변경 */
+            body[data-theme='dark'] .filter-menu {
+                background-color: #333; /* 다크 모드에서의 배경색 */
+                color: #fff; /* 다크 모드에서의 텍스트 색상 */
+            }
+
+            /* 필터 검색 입력 필드의 배경색과 텍스트 색상을 다크 모드에 맞게 조정 */
+            body[data-theme='dark'] .filter-search input {
+                background-color: #424242; /* 입력 필드의 배경색 */
+                color: #fff; /* 입력 필드의 텍스트 색상 */
+                border-color: #575757; /* 입력 필드의 테두리 색상 */
             }
 
             table {
@@ -117,8 +127,10 @@
     
             /* 도메인 필터 스타일 */
             #domainFilter {
+                background-color: var(--filter-background);
+                color: var(--filter-text-color);    
                 display: flex;
-                flex-wrap: nowrap;
+                flex-wrap: wrap;
                 overflow-x: auto;
                 overflow-y: hidden;
                 padding: 10px 0;
@@ -148,6 +160,13 @@
             body[data-theme='dark'] #jobTable tr:hover {
                 background-color: #424242; /* 어두운 회색으로 호버 배경색 설정 */
             }
+                    /* 다크 모드 스타일 */
+            body[data-theme='dark'] {
+                --background-color: #121212; /* 다크 모드 배경색 */
+                --text-color: #ffffff; /* 다크 모드 텍스트 색상 */
+                --filter-background: #333333; /* 다크 모드에서 필터 배경색 */
+                --filter-text-color: #ffffff; /* 다크 모드에서 필터 텍스트 색상 */
+            }
 
             #domainFilter input[type="checkbox"] {
                 margin-right: 5px;
@@ -173,8 +192,12 @@
             .col-registration { width: 7.5%; }
 
             body {
-                --background-color: #ffffff; /* 라이트모드 배경색 */
-                --text-color: #000000; /* 라이트모드 텍스트 색상 */
+                --background-color: #ffffff; /* 라이트 모드 배경색 */
+                --text-color: #000000; /* 라이트 모드 텍스트 색상 */
+                --filter-background: #f0f0f0; /* 필터 배경색 */
+                --filter-text-color: #000000; /* 필터 텍스트 색상 */
+                background-color: var(--background-color);
+                color: var(--text-color);
             }
 
             @media (prefers-color-scheme: dark) {
@@ -317,6 +340,60 @@
             #jobTable thead th {
                 font-weight: bold; /* 볼드체 스타일 적용 */
             }
+            
+                /* 기존 스타일 유지 및 추가 스타일 */
+            .layout {
+                display: flex;
+                justify-content: space-between; /* 필터 메뉴와 테이블 사이의 공간을 균등하게 분배 */
+            }
+
+            .filter-menu {
+                background-color: #f0f0f0;
+                padding: 20px;
+                border-radius: 8px;
+                width: 200px;
+                position: sticky;
+                top: 200px;
+                max-height: calc(70vh);
+                overflow-y: auto;
+            }
+
+                    /* 필터 검색 스타일 */
+            .filter-search {
+                margin-top: 1px; /* 상단 여백 조정 */
+                margin-bottom: 1px; /* 검색 필드와 체크박스 목록 사이의 여백 */
+            }
+
+
+            .filter-search input {
+                width: 100%;
+                height: 40px; /* 높이를 30px로 조정 */
+                padding: 8px;
+                margin-bottom: 5px; /* 검색 필드 아래 여백 */
+                border-radius: 4px;
+                border: 1px solid #ccc;
+            }
+
+            .filter-menu h3 {
+                margin-bottom: 15px;
+            }
+
+            .filter-menu label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .filter-menu input[type="checkbox"] {
+                margin-right: 5px;
+            }
+
+
+            .main-content {
+                flex-grow: 1; /* 남은 공간을 메인 콘텐츠가 차지하도록 설정 */
+                padding: 20px; /* 메인 콘텐츠의 내부 여백 설정 */
+                max-width: calc(100% - 220px); /* 필터 메뉴의 너비와 여백을 고려하여 최대 너비 설정 */
+            }
+
 
 
         </style>
@@ -334,31 +411,40 @@
         </label>
     </div>
 
-    
-    <h2>PM, PO, 서비스 기획</h2>
-    <div id="domainFilter">
-        <!-- 도메인 필터링 체크박스들이 여기에 위치 -->
-    </div>
-    <table id="jobTable">
-        <thead>
-            <tr>
-                <th class="col-experience sortable" onclick="sortTable('req', this)">요구 경력</th>
-                <th class="col-role">포지션</th>
-                <th class="col-domain">도메인</th>
-                <th class="col-company">회사명</th>
-                <th class="col-service">서비스소개</th>
-                <th class="col-type">구분</th>
-                <th class="col-deadline sortable" onclick="sortTable('deadline', this)">마감일</th>
-                <th class="col-registration sortable" onclick="sortTable('upload', this)">등록일</th>                <th class="col-status">상태</th> <!-- '상태' 칼럼 추가 -->
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Table rows will be added here dynamically -->
-        </tbody>
-    </table>
-    <div id="loadingIndicator" style="text-align: center; padding: 20px;">
-        데이터 로딩 중...
-    </div>
+    <div class="layout"> <!-- 새로운 레이아웃 컨테이너 추가 -->
+        <!-- 새로운 필터링 메뉴 -->
+        <aside class="filter-menu">
+            <h3></h3>
+            <div class="filter-search">
+                <input type="text" id="domainSearch" placeholder="도메인 검색...">
+            </div>
+            <div id="domainFilter">
+                <!-- 도메인 필터링 체크박스들이 여기에 위치 -->
+            </div>
+            <!-- 추가적인 필터링 옵션을 여기에 배치할 수 있습니다 -->
+        </aside>
+        <div class="main-content">
+            <h2>PM, PO, 서비스 기획</h2>       
+            <table id="jobTable">
+                <thead>
+                    <tr>
+                        <th class="col-experience sortable" onclick="sortTable('req', this)">요구 경력</th>
+                        <th class="col-role">포지션</th>
+                        <th class="col-domain">도메인</th>
+                        <th class="col-company">회사명</th>
+                        <th class="col-service">서비스소개</th>
+                        <th class="col-type">구분</th>
+                        <th class="col-deadline sortable" onclick="sortTable('deadline', this)">마감일</th>
+                        <th class="col-registration sortable" onclick="sortTable('upload', this)">등록일</th>                <th class="col-status">상태</th> <!-- '상태' 칼럼 추가 -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows will be added here dynamically -->
+                </tbody>
+            </table>
+            <div id="loadingIndicator" style="text-align: center; padding: 20px;">
+                데이터 로딩 중...
+            </div>
 </main>
 
 <script>
@@ -430,6 +516,20 @@
             label.appendChild(checkbox);
             label.appendChild(document.createTextNode(` ${domain}`));
             domainFilterDiv.appendChild(label);
+        });
+
+        const searchInput = document.getElementById('domainSearch');
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const labels = document.querySelectorAll('#domainFilter label');
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    label.style.display = '';
+                } else {
+                    label.style.display = 'none';
+                }
+            });
         });
     }
 
@@ -533,7 +633,7 @@
             }
         });
     }
-    
+
     function getDateDiff(date) {
         const today = new Date();
         today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
@@ -579,7 +679,7 @@
         loadJobs();
 
         // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
-        adjustDomainFilterWidth();
+
 
         if(localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             themeSwitch.checked = true;
@@ -599,12 +699,15 @@
         // 테이블의 현재 너비 가져오기
         var tableWidth = table.offsetWidth;
 
-        // 도메인 필터의 너비를 테이블의 너비로 설정
-        domainFilter.style.width = tableWidth + 'px';
     }
      //테마 전환
-    const themeSwitch = document.getElementById('checkbox');
+    /*const themeSwitch = document.getElementById('checkbox');*/
     const switchLabel = document.querySelector('.theme-switch');
+    const themeSwitch = document.querySelector('#checkbox');
+        themeSwitch.addEventListener('change', function () {
+            document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
+            localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+        });
 
     themeSwitch.addEventListener('change', function() {
         if (this.checked) {
