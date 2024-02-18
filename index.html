@@ -10,10 +10,12 @@
                 padding: 0;
                 margin: 0;
             }
+
             main.container {
-                padding-left: 0 !important; /* 왼쪽 패딩 제거 */
-                padding-right: 0; /* 오른쪽 패딩 제거 (필요한 경우) */
-                max-width: none !important;
+                
+                
+                max-width: 1300;
+                margin: auto; /*가운데정렬*/
             }
 
             /* 기본 스타일 */
@@ -61,8 +63,24 @@
 
             table {
                 width: 100%; /* 조정된 테이블 너비 */
+                margin-left: auto;
+                margin-right: auto;
                 table-layout: fixed;
             }
+
+            /* 모든 텍스트 크기 조정 */
+            body,  td, p, a, input, button, label { /* 모든 관련 요소를 포함시킴 */
+                font-size: 0.75rem; /* 기본 텍스트 크기 설정 */
+            }
+            
+            th {font-size: 0.85rem;}
+
+
+            /* 제목의 텍스트 크기 조정 */
+            h1, h2, h3 {
+                font-size: 1.5rem; /* 제목 텍스트 크기 */
+            }
+
             th, td {
                 padding: 3px;
                 text-overflow: ellipsis;
@@ -81,10 +99,21 @@
                 text-align: center;
             }
 
-            #jobTable td, #jobTable th {
+            #jobTable th {
                 padding-top: 15px; /* 셀 상단 패딩 */
                 padding-bottom: 15px; /* 셀 하단 패딩 */
+                height: 80px; /* 셀의 높이를 50px로 설정 */
+
             }
+
+            #jobTable td{
+                padding-top: 15px; /* 셀 상단 패딩 */
+                padding-bottom: 15px; /* 셀 하단 패딩 */
+                height: 70px; /* 셀의 높이를 50px로 설정 */
+
+            }
+
+
     
             /* 도메인 필터 스타일 */
             #domainFilter {
@@ -123,14 +152,23 @@
             #domainFilter input[type="checkbox"] {
                 margin-right: 5px;
             }
+            
+            /* 테이블 본문 내의 '회사명'과 '포지션' 칼럼 셀 텍스트 볼드체로 설정 */
+            #jobTable tbody .col-company,
+            #jobTable tbody .col-role {
+                font-weight: bold; /* 볼드체 스타일 적용 */
+            }
+
+
+            
     
             /* 열 너비 설정 */
             .col-experience { width: 10%; }
             .col-company { width: 15%; }
-            .col-domain { width: 10%; }
-            .col-role { width: 15%; }
+            .col-domain { width: 15%; }
+            .col-role { width: 20%; }
             .col-service { width: 30%; }
-            .col-type { width: 10%; }
+            .col-type { width: 5%; }
             .col-deadline { width: 7.5%; }
             .col-registration { width: 7.5%; }
 
@@ -242,8 +280,8 @@
                 padding: 2px 6px;
                 margin: 2px;
                 font-size: 14px;
-                color: #fff;
-                background-color: 	#51A351;
+                color: #000000;
+                background-color: 	#efb4f64f;
                 border-radius: 4px;
                 white-space: nowrap;
             }
@@ -251,6 +289,36 @@
             body[data-theme='dark'] .domain-tag {
                 background-color: #375a7f; /* 다크 모드에서의 태그 배경색 */
             }
+
+            /* '회사명' 칼럼 내 하이퍼링크의 색상을 기본 텍스트 색상으로 설정 */
+            #jobTable .col-company a {
+                color: inherit; /* 하이퍼링크 색상을 부모 요소로부터 상속받도록 설정 */
+                text-decoration: none; /* 밑줄 제거 */
+            }
+
+            /* 다크 모드에서 도메인 태그의 스타일 */
+            body[data-theme='dark'] .domain-tag {
+                background-color: #375a7f; /* 배경색 변경 */
+                color: #ffffff; /* 폰트 색상 변경 */
+            }
+
+            /* 다크 모드에서 테이블 본문 텍스트 색상 변경 */
+            body[data-theme='dark'] #jobTable td {
+                color: #ffffff; /* 폰트 색상 변경 */
+            }
+
+
+            /* 하이퍼링크에 마우스를 올렸을 때의 스타일 설정 */
+            #jobTable .col-company a:hover {
+                text-decoration: underline; /* 마우스 호버 시 밑줄 표시 */
+            }
+
+                    /* 테이블 헤더의 모든 텍스트를 볼드체로 설정 */
+            #jobTable thead th {
+                font-weight: bold; /* 볼드체 스타일 적용 */
+            }
+
+
         </style>
         
     </head>
@@ -265,62 +333,73 @@
             
         </label>
     </div>
-    <h2>경력직 채용</h2>
+
+    
+    <h2>PM, PO, 서비스 기획</h2>
     <div id="domainFilter">
         <!-- 도메인 필터링 체크박스들이 여기에 위치 -->
     </div>
     <table id="jobTable">
         <thead>
             <tr>
-                <th class="col-experience sortable" onclick="sortTable('요구 경력', this)">요구 경력</th>
-                <th class="col-company">회사명</th>
-                <th class="col-domain">도메인</th>
+                <th class="col-experience sortable" onclick="sortTable('req', this)">요구 경력</th>
                 <th class="col-role">포지션</th>
+                <th class="col-domain">도메인</th>
+                <th class="col-company">회사명</th>
                 <th class="col-service">서비스소개</th>
                 <th class="col-type">구분</th>
-                <th class="col-deadline sortable" onclick="sortTable('마감일', this)">마감일</th>
-                <th class="col-registration sortable" onclick="sortTable('등록일', this)">등록일</th>                <th class="col-status">상태</th> <!-- '상태' 칼럼 추가 -->
+                <th class="col-deadline sortable" onclick="sortTable('deadline', this)">마감일</th>
+                <th class="col-registration sortable" onclick="sortTable('upload', this)">등록일</th>                <th class="col-status">상태</th> <!-- '상태' 칼럼 추가 -->
             </tr>
         </thead>
         <tbody>
             <!-- Table rows will be added here dynamically -->
         </tbody>
     </table>
+    <div id="loadingIndicator" style="text-align: center; padding: 20px;">
+        데이터 로딩 중...
+    </div>
 </main>
 
 <script>
     let jobs = []; // 직무 목록을 저장할 배열
     let offset = ''; // Airtable 페이징을 위한 offset
-    let sortState = { column: '등록일', descending: true, secondary: '요구 경력', secondaryDescending: false };
+    let sortState = { column: 'upload', descending: true, secondary: 'req', secondaryDescending: false };
     let filteredJobs = []; // 필터링된 직무 목록 
 
     async function loadJobs() {
+        showLoadingIndicator(true); // 데이터 로딩 시작 시 로딩 인디케이터 표시
         while (true) {
-            let url = 'https://api.airtable.com/v0/appJtF6Joees25hTB/tblOHoR4nM8w739Ve';
+            let url = 'https://api.airtable.com/v0/appGqJMnNREJGBKYC/tblLEsxIMpyNLzC0f';
             if (offset) {
                 url += `?offset=${offset}`;
             }
 
             const response = await fetch(url, {
                 headers: {
-                    'Authorization': 'Bearer patf53kjz3960zEhF.9ffc82e7dd02cdee4d0621fc86244cb9b74c1ac31b2dca32b4612f5c7f73de9b'
+                    'Authorization': 'Bearer patPsY922o9pY6sCf.2941517f892241b4df8dd4f0cdfe30e079276e1bf83ea01c75e3398eb2f0a072'
                 }
             });
             const data = await response.json();
-            console.log(data);
+            console.log("API Response:",data);
 
-            let newJobs = data.records.filter(record => record.fields['status'] === '채용 중');
+            let newJobs = data.records.filter(record => record.fields['statu'] === 'open');
             jobs = jobs.concat(newJobs);
 
             offset = data.offset || '';
             if (!offset) break; // 더 이상 로드할 데이터가 없으면 반복 종료
         }
 
+        showLoadingIndicator(false); // 데이터 로딩 완료 시 로딩 인디케이터 숨김
+
         filteredJobs = jobs.slice(); // 초기 필터링된 목록은 전체 직무 목록과 동일
         generateDomainFilters();
         sortAndRenderTable(); // 데이터 정렬 및 필터링된 테이블에 렌더링
     }
-
+    function showLoadingIndicator(show) {
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        loadingIndicator.style.display = show ? 'block' : 'none';
+    }
     function generateDomainFilters() {
         const domainSet = new Set(); // 고유한 도메인 값을 저장할 Set 객체 생성
 
@@ -375,7 +454,7 @@
             if (secondarySort !== 0) return secondarySort;
 
             // 세 번째 정렬 기준: '회사명' (텍스트 순서)
-            return compareValues(a, b, '회사명', false); // '회사명'은 항상 오름차순으로 정렬
+            return compareValues(a, b, 'company', false); // '회사명'은 항상 오름차순으로 정렬
         });
 
         renderTable();
@@ -395,55 +474,76 @@
 
         filteredJobs.forEach((job, index) => {
             const row = tableBody.insertRow();
-            if (index % 2 === 0) {
-                row.className = 'even-row'; // 짝수 번호 행에 'even-row' 클래스 적용
-            } else {
-                row.className = 'odd-row'; // 홀수 번호 행에 'odd-row' 클래스 적용
-            }
+            row.className = index % 2 === 0 ? 'even-row' : 'odd-row';
 
-               // '요구 경력'과 '요구 경력max' 값을 조건에 따라 문자열 생성
-            const experienceMin = job.fields['req'] || '0'; // '요구 경력'이 없는 경우 '0'으로 처리
-            const experienceMax = job.fields['req(max)']; // '요구 경력max' 값 확인
-            const experienceText = experienceMax ? `${experienceMin}-${experienceMax}년` : `${experienceMin}년`; // '요구 경력max' 존재 여부에 따라 문자열 결정
-           
-            
+            // '요구 경력' 셀 추가
+            const experienceText = job.fields['req(max)'] ? `${job.fields['req'] || '0'}-${job.fields['req(max)']}년` : `${job.fields['req'] || '0'} 년`;
             row.insertCell(0).innerText = experienceText;
 
-            const companyCell = row.insertCell(1); // '회사명' 셀 생성
-            if (job.fields['company(url)']) { // '회사명(링크)'가 있는 경우
+            // '포지션' 셀 추가
+            const positionCell = row.insertCell(1); // 변경: '포지션' 셀을 두 번째로 이동
+            positionCell.classList.add('col-role');
+            positionCell.innerText = job.fields['pos'] || '';
+
+            // '도메인' 셀 추가
+            const domainCell = row.insertCell(2);
+            (job.fields['domain'] || []).forEach(domain => {
+                const domainTag = document.createElement('span');
+                domainTag.classList.add('domain-tag');
+                domainTag.textContent = domain;
+                domainCell.appendChild(domainTag);
+            });
+
+            // '회사명' 셀 추가
+            const companyCell = row.insertCell(3); // 변경: '회사명' 셀을 네 번째로 이동
+            companyCell.classList.add('col-company');
+            if (job.fields['company(url)']) {
                 const companyLink = document.createElement('a');
                 companyLink.href = job.fields['company(url)'];
                 companyLink.target = '_blank';
                 companyLink.textContent = job.fields['company'];
                 companyCell.appendChild(companyLink);
             } else {
-                companyCell.textContent = job.fields['company']; // 링크 없이 텍스트만 추가
+                companyCell.textContent = job.fields['company'];
             }
 
-            const domainCell = row.insertCell(2);
-            const domains = job.fields['domain'] || [];
-            domains.forEach(domain => {
-                const domainTag = document.createElement('span'); // 태그로 사용할 span 요소 생성
-                domainTag.classList.add('domain-tag'); // 태그 스타일 적용
-                domainTag.textContent = domain;
-                domainCell.appendChild(domainTag); // 도메인 셀에 태그 추가
-        });
-
-            
-            row.insertCell(3).innerText = job.fields['position'] || '';
+            // 나머지 칼럼 추가
             row.insertCell(4).innerText = job.fields['service'] || '';
-            row.insertCell(5).innerText = job.fields['sort'] || '';
-            row.insertCell(6).innerText = convertDateFormat(job.fields['upload']); // '마감일'을 새로운 형식으로 변환
-            row.insertCell(7).innerText = convertDateFormat(job.fields['deadline']);
+            row.insertCell(5).innerText = job.fields['sorts'] || '';
+            row.insertCell(6).innerText = convertDateFormat(job.fields['deadline']);
 
-            if (job.fields['position(url)']) { // '직무(링크)' 필드가 존재하는 경우에만 클릭 이벤트 핸들러 추가
-                row.style.cursor = 'pointer'; // 마우스 커서를 포인터로 변경
-                row.addEventListener('click', function() {
-                    window.open(job.fields['position(url)'], '_blank'); // 새 탭에서 '직무(링크)' 열기
-                });
+            row.insertCell(7).innerText = convertDateFormat(job.fields['upload']);
+            const registrationDate = new Date(job.fields['upload']);
+            const dateDiff = getDateDiff(registrationDate);
+
+            // 1~3일 전 데이터 처리
+            if (dateDiff > 0 && dateDiff <= 3) {
+                registrationCell.innerText = `${dateDiff}일 전`;
+            } else {
+                // 기존 날짜 형식 유지
+                registrationCell.innerText = convertDateFormat(job.fields['upload']);
+            }
+
+
+
+            // '직무(링크)'가 있는 경우 클릭 이벤트 핸들러 추가
+            if (job.fields['position(url)']) {
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', () => window.open(job.fields['position(url)'], '_blank'));
             }
         });
     }
+    
+    function getDateDiff(date) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
+        date.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
+
+        const diffTime = Math.abs(today - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // 밀리초 단위의 차이를 일 단위로 변환
+        return diffDays;
+    }
+
     function compareValues(a, b, column, descending, numeric = false) {
         let aValue = a.fields[column] || 0;
         let bValue = b.fields[column] || 0;
@@ -525,4 +625,3 @@
 </script>
 </body>
 </html>
-
