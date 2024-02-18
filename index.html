@@ -512,7 +512,7 @@
             row.insertCell(5).innerText = job.fields['sorts'] || '';
             row.insertCell(6).innerText = convertDateFormat(job.fields['deadline']);
 
-            row.insertCell(7).innerText = convertDateFormat(job.fields['upload']);
+            const registrationCell = row.insertCell(7); // '등록일' 셀을 추가하는 부분
             const registrationDate = new Date(job.fields['upload']);
             const dateDiff = getDateDiff(registrationDate);
 
