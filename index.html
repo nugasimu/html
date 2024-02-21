@@ -442,6 +442,18 @@
                 max-width: calc(100% - 220px); /* 필터 메뉴의 너비와 여백을 고려하여 최대 너비 설정 */
             }
 
+            /* 갤러리 박스 스타일 */
+            .job-card {
+                background: #fff;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                margin: 10px;
+                padding: 10px;
+                width: calc(100% - 20px); /* 기본 너비 설정 */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+
+
             /* 갤러리 카드 스타일 */
             .job-card:nth-child(odd) {
                 background-color: #FAF6F3; /* 짝수 항목 배경색 */
@@ -1005,9 +1017,8 @@
     }
 
     window.onload = function() {
-        // 직무 데이터 로드
-        loadTheme();
         loadJobs();
+        loadTheme();
         toggleDisplayBasedOnWidth(); // 화면 크기에 따라 적절한 디스플레이 설정
         // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
 
