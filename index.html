@@ -993,7 +993,6 @@
 
     function toggleDisplayBasedOnWidth() {
         if (window.innerWidth <= 768) {
-            renderGallery();
             document.getElementById('jobGallery').style.display = 'flex';
             document.getElementById('jobTable').style.display = 'none';
             document.getElementById('filterman').style.display = 'none';
@@ -1008,10 +1007,9 @@
     window.onload = function() {
         // 직무 데이터 로드
         loadTheme();
-        
+        loadJobs();
         toggleDisplayBasedOnWidth(); // 화면 크기에 따라 적절한 디스플레이 설정
         // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
-        loadJobs();
 
         
         document.getElementById('floatingIcon').onclick = function() {
