@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
-        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
         <title>포지션허브</title>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LRB4GCFXXC"></script>
+
         <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
         
-          gtag('config', 'G-LRB4GCFXXC');
+            gtag('config', 'G-LRB4GCFXXC');
+        </script>
+        <script>
+            // 사용자의 테마 선호도를 확인하고 적용하는 스크립트
+            (function() {
+                // localStorage에서 테마 상태를 가져옵니다. 없으면 시스템 테마 설정을 따릅니다.
+                var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                // body 태그에 data-theme 속성을 설정하여 초기 테마를 적용합니다.
+                document.body.setAttribute('data-theme', theme);
+            })();
         </script>
         <style>
+
+            
             html, body {
                 padding: 0;
                 margin: 0;
@@ -23,6 +34,7 @@
 
             main.container {
                 max-width: 1400px;
+                min-height: 100vh;
                 margin: auto; /*가운데정렬*/
             }
 
@@ -62,6 +74,15 @@
                 background-color: #FAF6F3;
             }
 
+            body[data-theme='dark'] thead th {
+                background-color: #333; /* 또는 원하는 다크 모드 배경색 */
+            }
+
+            /* 다크 모드에서 테이블 본문 텍스트 색상 변경 */
+            body[data-theme='dark'] tbody td {
+                color: #fff; /* 백색 텍스트 */
+            }
+
             body[data-theme='dark'] .odd-row {
                 background-color: #2C2C2E; /* 다크모드에 적합한 더 어두운 색 */
             }
@@ -74,11 +95,29 @@
                 color: #fff; /* 다크 모드에서의 텍스트 색상 */
             }
 
+            /* 다크 모드에서 갤러리 박스 배경색 변경 */
+            body[data-theme='dark'] .job-card {
+                background-color: #2C2C2E; /* 다크 모드에 적합한 배경색으로 변경 */
+                color: #fff; /* 다크 모드에 적합한 텍스트 색상으로 변경 */
+            }
+
+            body[data-theme='dark'] .job-card:hover {
+                background-color: #3A3A3C; /* 호버 상태에서의 배경색 변경 */
+            }
             /* 필터 검색 입력 필드의 배경색과 텍스트 색상을 다크 모드에 맞게 조정 */
             body[data-theme='dark'] .filter-search input {
                 background-color: #424242; /* 입력 필드의 배경색 */
                 color: #fff; /* 입력 필드의 텍스트 색상 */
                 border-color: #575757; /* 입력 필드의 테두리 색상 */
+            }
+
+            /* 다크 모드에서 도메인 필터 배경색 변경 */
+            body[data-theme='dark'] .filter-menu {
+                background-color: #333; /* 또는 원하는 다크 모드 배경색 */
+            }
+
+            input[type="checkbox"] {
+                accent-color: #4CAF50; /* 체크박스 색상 변경 */
             }
 
             table {
@@ -354,7 +393,6 @@
                 /* 기존 스타일 유지 및 추가 스타일 */
             .layout {
                 display: flex;
-                justify-content: space-between; /* 필터 메뉴와 테이블 사이의 공간을 균등하게 분배 */
             }
 
             .filter-menu {
@@ -404,6 +442,156 @@
                 max-width: calc(100% - 220px); /* 필터 메뉴의 너비와 여백을 고려하여 최대 너비 설정 */
             }
 
+            /* 갤러리 카드 스타일 */
+            .job-card:nth-child(odd) {
+                background-color: #FAF6F3; /* 짝수 항목 배경색 */
+            }
+
+            .job-card:nth-child(even) {
+                background-color: #FFFFFF; /* 홀수 항목 배경색 */
+            }
+
+            .job-card:hover {
+                background-color: #f0f0f0; /* 호버 시 배경색 변경 */
+                cursor: pointer; /* 마우스 포인터를 손가락 모양으로 변경 */
+            }
+
+            .notice-box {
+                background-color: #f9f9f9; /* 밝은 회색 배경 */
+                border-left: 4px solid #007bff; /* 왼쪽에 파란색 테두리 */
+                margin: 20px 0; /* 위아래 마진 */
+                padding: 15px; /* 내부 패딩 */
+                border-radius: 5px; /* 경계선 둥글게 */
+                color: #000; /* 텍스트 색상 */
+                word-wrap: break-word; /* 긴 단어나 URL이 요소 경계를 넘어가지 않도록 설정 */
+                overflow-wrap: break-word; /* 텍스트가 요소 경계를 넘어가는 것을 방지 */
+
+            }
+
+                /* 탈리 팝업 닫기 버튼 스타일 */
+            .close-button {
+                padding: 10px 20px; /* 버튼의 패딩 */
+                font-size: 16px; /* 텍스트 크기 */
+                cursor: pointer; /* 마우스 포인터 변경 */
+                border: none; /* 테두리 제거 */
+                border-radius: 5px; /* 둥근 모서리 */
+                background-color: 	#efb4f64f;
+                color: rgb(0, 0, 0); /* 버튼 내 텍스트 색상 */
+                transition: background-color 0.3s; /* 배경색 변화 애니메이션 */
+            }
+                /* 버튼 호버 상태 스타일 */
+            .close-button:hover {
+                background-color: 	#efb4f64f;
+            }
+
+
+            .notice-box h3 {
+                color: #007bff; //* 파란색 제목 */
+            }
+
+            body[data-theme='dark'] .notice-box {
+                background-color: #333; /* 다크 모드에서의 배경색 */
+                border-left-color: #4c8ffc; /* 다크 모드에서의 테두리 색상 */
+                color: #ffffff; /* 다크 모드에서의 텍스트 색상 */
+            }
+
+            body[data-theme='dark'] .notice-box h3 {
+                color: #4c8ffc; /* 다크 모드에서의 제목 색상 */
+            }
+
+            
+
+            @media (max-width: 768px) {
+                /* Hide the table and display the gallery view on mobile */
+                #jobTable {
+                    display: none;
+                }
+
+                .job-gallery {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 10px;
+                }
+
+                .job-card {
+                    background: #fff;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    margin: 10px 0 ; 
+                    padding: 10px;
+                    width: 100%;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                .job-card .job-company {
+                    font-weight: bold; /* 회사명을 볼드체로 표시 */
+                }
+
+
+                .job-card h3, .job-card p {
+                    margin: 5px 0;
+                }
+
+                .layout {
+                    display: block;
+                    width:100vh;
+                    flex-direction: column; /* 요소들을 세로로 쌓음 */
+                    align-items: stretch; /* 자식 요소들이 컨테이너 너비 전체를 차지하도록 함 */
+                
+                }
+                .notice-box {
+                    padding: 10px; /* 모바일 환경에서 패딩 축소 */
+                }
+            }
+            @media (min-width: 769px) {
+                .job-gallery {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center; /* 카드를 중앙에 위치시킴 */
+                    padding: 10px;
+                }
+
+                .job-card {
+                    background: #fff;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    margin: 10px;
+                    padding: 10px;
+                    width: calc(100% - 20px); /* 웹 환경에서 갤러리 카드 너비를 조정 */
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+
+                .job-card h3, .job-card p {
+                    margin: 5px 0;
+                }
+            }
+            /* 라이트 모드에서의 버튼 스타일 */
+            body[data-theme='light'] .popupButton {
+                background-color: 	#efb4f64f;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            /* 다크 모드에서의 버튼 스타일 */
+            body[data-theme='dark'] .popupButton {
+                background-color: 	#efb4f64f;
+                color: #ffffff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            
+
+
+
 
 
         </style>
@@ -413,17 +601,18 @@
 
 <main class="container">
          <!-- 테마 전환 버튼 -->
-     <div class="theme-switch-wrapper">
+    <div class="theme-switch-wrapper">
         <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox" />
             <div class="slider round"></div>
             
         </label>
     </div>
+        <!-- Add inside the <body> tag, after the <main> tag -->
 
     <div class="layout"> <!-- 새로운 레이아웃 컨테이너 추가 -->
         <!-- 새로운 필터링 메뉴 -->
-        <aside class="filter-menu">
+        <aside class="filter-menu" id="filterman">
             <h3></h3>
             <div class="filter-search">
                 <input type="text" id="domainSearch" placeholder="도메인 검색...">
@@ -434,7 +623,21 @@
             <!-- 추가적인 필터링 옵션을 여기에 배치할 수 있습니다 -->
         </aside>
         <div class="main-content">
-            <h2>PM, PO, 서비스 기획</h2>       
+            <h2>PM, PO, 서비스 기획</h2>   
+            <div class="notice-box">
+                <h3>공지사항</h3>
+                <p> 
+                    - 모바일 환경에서도 편히 보실 수 있도록, 반응형 웹 기능을 추가하였습니다! <br>
+                      더 빠르게, 더 나은 경험을 하실 수 있도록 노력하겠습니다!<br>
+                      <br>
+                      
+                    - Job Description을 기반으로 PM, PO, 서비스기획 직무 공고를 올려드립니다.<br>
+                    <br>
+                    - 해당 페이지는 평일 오전 8시에 업데이트 됩니다. <br>
+                    <br>
+                    - ‘그룹바이, 로켓펀치, 리멤버, 링커리어, 링크드인, 슈퍼루키, 원티드, 인디스워크, 잡코리아’의 공고를 업데이트합니다. <br>
+                    </p>
+            </div>  
             <table id="jobTable">
                 <thead>
                     <tr>
@@ -452,9 +655,33 @@
                     <!-- Table rows will be added here dynamically -->
                 </tbody>
             </table>
+            <!-- 플로팅 아이콘 -->
+            <!-- 팝업 버튼 -->
+            <div id="floatingButton" style="position: fixed; bottom: 20px; right: 20px; cursor: pointer; z-index: 1000;">
+                <button class="popupButton">아쉬운 점을 알려주세요!!</button>
+            </div>
+
+            <!-- 팝업 창 -->
+            <div id="tallyPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <iframe src="https://tally.so/embed/3ExR7o?hideTitle=1&transparentBackground=1" width="100%" height="230px" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+            <!-- 팝업 하단에 닫기 버튼 배치 -->
+                <div style="text-align: center; margin-top: 20px;"> <!-- 닫기 버튼을 중앙에 배치하기 위한 div -->
+                    <button onclick="document.getElementById('tallyPopup').style.display='none'" style="padding: 10px 20px; font-size: 16px; cursor: pointer;"class="close-button">닫기</button>
+                </div>
+            </div>
+
             <div id="loadingIndicator" style="text-align: center; padding: 20px;">
                 데이터 로딩 중...
             </div>
+
+
+
+            <div class="job-gallery" id="jobGallery">
+                <!-- Dynamic job cards will be injected here -->
+            </div>
+        
+        </div>
+    </div>
 </main>
 
 <script>
@@ -491,6 +718,7 @@
         filteredJobs = jobs.slice(); // 초기 필터링된 목록은 전체 직무 목록과 동일
         generateDomainFilters();
         sortAndRenderTable(); // 데이터 정렬 및 필터링된 테이블에 렌더링
+        renderGallery();
     }
     function showLoadingIndicator(show) {
         const loadingIndicator = document.getElementById('loadingIndicator');
@@ -573,7 +801,7 @@
     // 날짜 형식을 'yy.mm.dd'로 변환하는 함수
     function convertDateFormat(dateString) {
         if (!dateString) return '';
-        const [year, month, day] = dateString.split('-'); // 'yyyy.mm.dd' 형식을 가정
+        const [year, month, day] = dateString.split('-'); // 'yyyy.mm.dd' 형식을 가정x
         return `${year.slice(2)}.${month}.${day}`; // 'yy.mm.dd' 형식으로 변환
     }
 
@@ -684,13 +912,116 @@
     }
 
 
+    function renderGallery() {
+        const gallery = document.getElementById('jobGallery');
+        gallery.innerHTML = ''; // 갤러리 초기화
+        gallery.style.display = 'flex'; // 갤러리를 보여줍니다
+
+        filteredJobs.forEach(job => { // 필터링된 직무 목록을 순회
+            const card = document.createElement('div'); // 카드 요소 생성
+            card.className = 'job-card'; // 카드에 클래스 이름 설정
+
+            // 경력 요건
+            const experience = document.createElement('p');
+            const experienceText = job.fields['req(max)'] ? `${job.fields['req'] || '0'}-${job.fields['req(max)']}년` : `${job.fields['req'] || '0'}년`;
+            experience.textContent = `경력요건: ${experienceText}`;
+            card.appendChild(experience);
+
+
+            // 직무 타이틀
+            const title = document.createElement('h3');
+            title.className = 'job-title';
+            title.textContent = job.fields['pos'] || '포지션 정보 없음'; // 직무 타이틀 설정
+            card.appendChild(title); // 카드에 타이틀 추가
+
+            // 회사명
+            const company = document.createElement('p');
+            company.className = 'job-company';
+            company.textContent = `회사명: ${job.fields['company'] || '정보 없음'}`; // 회사명 설정
+            card.appendChild(company); // 카드에 회사명 추가
+
+
+
+
+            // 도메인 정보
+            const domainInfo = document.createElement('div');
+            (job.fields['domain'] || []).forEach(domain => {
+                const domainTag = document.createElement('span');
+                domainTag.className = 'domain-tag';
+                domainTag.textContent = domain;
+                domainInfo.appendChild(domainTag);
+            });
+            card.appendChild(domainInfo);
+
+                        // 서비스 소개
+            const service = document.createElement('p');
+            service.textContent = `서비스 소개: ${job.fields['service'] || '정보 없음'}`;
+            card.appendChild(service);
+
+            // 구분
+            const type = document.createElement('p');
+            type.textContent = `구분: ${job.fields['sorts'] || '정보 없음'}`;
+            card.appendChild(type);
+
+            // 공고일
+            const registrationDate = new Date(job.fields['upload']);
+            const dateDiff = getDateDiff(registrationDate);
+            const registrationInfo = document.createElement('p');
+            if (dateDiff > 0 && dateDiff <= 3) {
+                registrationInfo.textContent = `등록일: ${dateDiff}일 전`;
+            } else {
+                registrationInfo.textContent = `등록일: ${convertDateFormat(job.fields['upload'])}`;
+            }
+            card.appendChild(registrationInfo);
+
+            // 마감일
+            const deadline = document.createElement('p');
+            deadline.textContent = `마감일: ${convertDateFormat(job.fields['deadline'])}`;
+            card.appendChild(deadline);
+
+
+            // 갤러리 카드 클릭 이벤트
+            if (job.fields['position(url)']) {
+                card.addEventListener('click', () => {
+                    window.open(job.fields['position(url)'], '_blank');
+                });
+            }
+            gallery.appendChild(card); // 갤러리에 카드 추가
+        });
+
+    }
+
+    function toggleDisplayBasedOnWidth() {
+        if (window.innerWidth <= 768) {
+            renderGallery();
+            document.getElementById('jobGallery').style.display = 'flex';
+            document.getElementById('jobTable').style.display = 'none';
+            document.getElementById('filterman').style.display = 'none';
+
+        } else {
+            document.getElementById('jobGallery').style.display = 'none';
+            document.getElementById('jobTable').style.display = 'table'
+            document.getElementById('filterman').style.display = 'block';
+        }
+    }
+
     window.onload = function() {
         // 직무 데이터 로드
+        loadTheme();
+        
+        toggleDisplayBasedOnWidth(); // 화면 크기에 따라 적절한 디스플레이 설정
+        // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
         loadJobs();
 
-        // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
+        
+        document.getElementById('floatingIcon').onclick = function() {
+            var tallyPopup = document.getElementById('tallyPopup');
+            tallyPopup.style.display = 'block'; // 팝업 보이기
+        };
+        
 
-
+    // 테마 설정
+        const themeSwitch = document.querySelector('#checkbox');
         if(localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             themeSwitch.checked = true;
             document.body.setAttribute('data-theme', 'dark');
@@ -699,6 +1030,34 @@
             document.body.setAttribute('data-theme', 'light');
         }
     };
+    window.onresize = toggleDisplayBasedOnWidth;
+
+
+    function loadTheme() {
+        const themeSwitch = document.querySelector('#checkbox');
+        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+        if (currentTheme) {
+            document.body.setAttribute('data-theme', currentTheme);
+
+            if (currentTheme === 'dark') {
+                themeSwitch.checked = true;
+            } else {
+                themeSwitch.checked = false;
+            }
+        }
+
+        // 테마 변경 이벤트 리스너 설정
+        themeSwitch.addEventListener('change', function () {
+            if(this.checked) {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    }
 
     function adjustDomainFilterWidth() {
         // 테이블 요소 선택
@@ -714,22 +1073,9 @@
     /*const themeSwitch = document.getElementById('checkbox');*/
     const switchLabel = document.querySelector('.theme-switch');
     const themeSwitch = document.querySelector('#checkbox');
-        themeSwitch.addEventListener('change', function () {
-            document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
-            localStorage.setItem('theme', this.checked ? 'dark' : 'light');
-        });
-
-    themeSwitch.addEventListener('change', function() {
-        if (this.checked) {
-            switchLabel.classList.remove('light');
-            switchLabel.classList.add('dark');
-            document.body.setAttribute('data-theme', 'dark');
-        } else {
-            switchLabel.classList.remove('dark');
-            switchLabel.classList.add('light');
-            document.body.setAttribute('data-theme', 'light');
-        }
-        localStorage.setItem('theme', document.body.getAttribute('data-theme'));
+    themeSwitch.addEventListener('change', function () {
+        document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
+        localStorage.setItem('theme', this.checked ? 'dark' : 'light');
     });
 
 
