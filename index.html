@@ -24,6 +24,30 @@
                 document.body.setAttribute('data-theme', theme);
             })();
         </script>
+        <script>
+            // 기존 스크립트 ...
+        
+            function showPopup() {
+                document.getElementById('tallyPopup').style.display = 'block'; // 팝업을 보이게 설정
+            }
+        
+            function hidePopup() {
+                document.getElementById('tallyPopup').style.display = 'none'; // 팝업을 숨김
+            }
+        
+            window.onload = function() {
+                // 기존 onload 이벤트 핸들러 코드...
+        
+                // 팝업 버튼 클릭 이벤트 리스너 추가
+                document.getElementById('floatingButton').addEventListener('click', showPopup);
+        
+                // 팝업 내의 닫기 버튼에 클릭 이벤트 리스너 추가
+                // '닫기' 버튼이 여러 개일 경우 각각에 대해 이벤트 리스너를 추가해야 합니다.
+                // 이 예시에서는 닫기 버튼이 하나만 있다고 가정합니다.
+                document.querySelector('.close-button').addEventListener('click', hidePopup);
+            };
+        </script>
+        
         <style>
 
             
@@ -641,8 +665,8 @@
             <div class="notice-box">
                 <h3>공지사항</h3>
                 <p> 
-                    - 모바일 환경에서도 편히 보실 수 있도록, 반응형 웹 기능을 업데이트 중에 있습니다! <br>
-                      업데이트는 오늘 내일 중으로 완료하여 더 편하게 이용하실 수 있도록 하겠습니다!!<br>
+                    - 모바일 환경에서도 편히 보실 수 있도록, 반응형 웹 기능을 추가하였습니다! <br>
+                      더 빠르게, 더 나은 경험을 하실 수 있도록 노력하겠습니다!<br>
                       <br>
                       
                     - Job Description을 기반으로 PM, PO, 서비스기획 직무 공고를 올려드립니다.<br>
@@ -1025,10 +1049,16 @@
         // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
 
         
-        document.getElementById('floatingIcon').onclick = function() {
-            var tallyPopup = document.getElementById('tallyPopup');
-            tallyPopup.style.display = 'block'; // 팝업 보이기
-        };
+        document.getElementById('floatingButton').addEventListener('click', function() {
+            document.getElementById('tallyPopup').style.display = 'block';
+        });
+
+        // 팝업 내의 닫기 버튼에 클릭 이벤트 리스너 추가
+        document.querySelector('.close-button').addEventListener('click', function() {
+            document.getElementById('tallyPopup').style.display = 'none';
+        });
+    
+
         
 
     // 테마 설정
