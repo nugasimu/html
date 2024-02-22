@@ -15,11 +15,13 @@
         
             gtag('config', 'G-LRB4GCFXXC');
         </script>
+
+        
         <script>
 
             document.addEventListener('DOMContentLoaded', function() {
                     loadTheme(); // 테마 설정 로드
-                    toggleDisplayBasedOnWidth();
+                    // toggleDisplayBasedOnWidth();
                     document.getElementById('floatingButton').addEventListener('click', showPopup);
                     document.querySelector('.close-button').addEventListener('click', hidePopup);
                 });
@@ -45,28 +47,26 @@
                 document.getElementById('tallyPopup').style.display = 'none'; // 팝업을 숨김
             }
                 // 화면 크기에 따라 적절한 디스플레이 설정을 조정하는 함수
-            function toggleDisplayBasedOnWidth() {
-                if (window.innerWidth <= 768) {
-                    document.getElementById('jobGallery').style.display = 'flex';
-                    document.getElementById('jobTable').style.display = 'none';
-                    document.getElementById('filterman').style.display = 'none';
-                } else {
-                    document.getElementById('jobGallery').style.display = 'none';
-                    document.getElementById('jobTable').style.display = 'table';
-                    document.getElementById('filterman').style.display = 'block';
-                }
-            }
+            // function toggleDisplayBasedOnWidth() {
+            //     if (window.innerWidth <= 768) {
+            //         document.getElementById('jobGallery').style.display = 'flex';
+            //         document.getElementById('jobTable').style.display = 'none';
+            //         document.getElementById('filterman').style.display = 'none';
+            //     } else {
+            //         document.getElementById('jobGallery').style.display = 'none';
+            //         document.getElementById('jobTable').style.display = 'table';
+            //         document.getElementById('filterman').style.display = 'block';
+            //     }
+            // }
 
                     // DOM이 로드되었을 때와 창 크기가 변경될 때 함수를 호출합니다.
-            window.addEventListener('DOMContentLoaded', toggleDisplayBasedOnWidth);
+            // window.addEventListener('DOMContentLoaded', toggleDisplayBasedOnWidth);
             // window.addEventListener('resize', toggleDisplayBasedOnWidth);
 
 
             // window.onload = function() {
 
             //     toggleDisplayBasedOnWidth();
-            //     document.getElementById('floatingButton').addEventListener('click', showPopup);        
-            //     document.querySelector('.close-button').addEventListener('click', hidePopup);
             // };
 
                     // 테마 설정 로드 함
