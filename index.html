@@ -617,6 +617,8 @@
                 .job-card .job-req {
                     font-weight: bold; /* 회사명을 볼드체로 표시 */
                 }
+                .job-service, .job-deadline, .job-registrationDate {
+                font-weight: bold; } 
 
                  .main-content {
                     max-width:none;
@@ -1067,6 +1069,7 @@
 
             // 서비스 소개
             const service = document.createElement('p');
+            service.className = 'job-service';
             service.textContent = `서비스 소개: ${job.fields['service'] || '정보 없음'}`;
             card.appendChild(service);
 
@@ -1077,6 +1080,7 @@
 
             // 마감일
             const deadline = document.createElement('p');
+            deadline.className = 'job-deadline';
             deadline.textContent = `마감일: ${convertDateFormat(job.fields['deadline'])}`;
             card.appendChild(deadline);
 
@@ -1085,6 +1089,7 @@
             const registrationDate = new Date(job.fields['upload']);
             const dateDiff = getDateDiff(registrationDate);
             const registrationInfo = document.createElement('p');
+            registrationInfo.className = 'job-registrationDate';
             if (dateDiff > 0 && dateDiff <= 3) {
                 registrationInfo.textContent = `등록일: ${dateDiff}일 전`;
             } else {
