@@ -596,7 +596,7 @@
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    padding: 10px;
+                    padding: 2px;
                     width:100%; 
                 }
 
@@ -612,7 +612,12 @@
                 }
                 .job-card .job-company {
                     font-weight: bold; /* 회사명을 볼드체로 표시 */
+                    font-size: 1.2rem;
                 }
+                .job-card .job-req {
+                    font-weight: bold; /* 회사명을 볼드체로 표시 */
+                }
+
                  .main-content {
                     max-width:none;
                 }
@@ -1027,23 +1032,24 @@
             const card = document.createElement('div'); // 카드 요소 생성
             card.className = 'job-card'; // 카드에 클래스 이름 설정
 
-            // 경력 요건
-            const experience = document.createElement('p');
-            const experienceText = job.fields['req(max)'] ? `${job.fields['req'] || '0'}-${job.fields['req(max)']}년` : `${job.fields['req'] || '0'}년`;
-            experience.textContent = `경력요건: ${experienceText}`;
-            card.appendChild(experience);
-
-
             // 직무 타이틀
             const title = document.createElement('h3');
             title.className = 'job-title';
             title.textContent = job.fields['pos'] || '포지션 정보 없음'; // 직무 타이틀 설정
             card.appendChild(title); // 카드에 타이틀 추가
 
+            // 경력 요건
+            const experience = document.createElement('p');
+            experience.className = 'job-req';
+            const experienceText = job.fields['req(max)'] ? `${job.fields['req'] || '0'}-${job.fields['req(max)']}년` : `${job.fields['req'] || '0'}년`;
+            experience.textContent = `경력요건: ${experienceText}`;
+            card.appendChild(experience);
+
+
             // 회사명
             const company = document.createElement('p');
             company.className = 'job-company';
-            company.textContent = `회사명: ${job.fields['company'] || '정보 없음'}`; // 회사명 설정
+            company.textContent = `[ ${job.fields['company'] || '정보 없음'} ]`; // 회사명 설정
             card.appendChild(company); // 카드에 회사명 추가
 
 
@@ -1059,15 +1065,21 @@
             });
             card.appendChild(domainInfo);
 
-                        // 서비스 소개
+            // 서비스 소개
             const service = document.createElement('p');
             service.textContent = `서비스 소개: ${job.fields['service'] || '정보 없음'}`;
             card.appendChild(service);
 
-            // 구분
-            const type = document.createElement('p');
-            type.textContent = `구분: ${job.fields['sorts'] || '정보 없음'}`;
-            card.appendChild(type);
+            // // 구분
+            // const type = document.createElement('p');
+            // type.textContent = `구분: ${job.fields['sorts'] || '정보 없음'}`;
+            // card.appendChild(type);
+
+            // 마감일
+            const deadline = document.createElement('p');
+            deadline.textContent = `마감일: ${convertDateFormat(job.fields['deadline'])}`;
+            card.appendChild(deadline);
+
 
             // 공고일
             const registrationDate = new Date(job.fields['upload']);
@@ -1080,10 +1092,6 @@
             }
             card.appendChild(registrationInfo);
 
-            // 마감일
-            const deadline = document.createElement('p');
-            deadline.textContent = `마감일: ${convertDateFormat(job.fields['deadline'])}`;
-            card.appendChild(deadline);
 
 
             // 갤러리 카드 클릭 이벤트
