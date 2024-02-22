@@ -81,6 +81,7 @@
             }
 
             main.container {
+                width: 100%;
                 max-width: 1400px;
                 min-height: 100vh;
                 margin: auto; /*가운데정렬*/
@@ -562,7 +563,14 @@
                 color: #4c8ffc; /* 다크 모드에서의 제목 색상 */
             }
 
-            
+            #floatingButton {
+                    position: fixed; /* 고정 위치 */
+                    bottom: 10px; /* 하단에서 10px 떨어진 위치에 배치 */
+                    right: 10px; /* 우측에서 10px 떨어진 위치에 배치 */
+                    z-index: 1000; /* 다른 요소 위에 표시 */
+                    width: auto; /* 자동 너비 조정 */
+                    padding: 5px; /* 패딩을 줄여 공간 확보 */
+                }
 
             @media (max-width: 768px) {
                 /* Hide the table and display the gallery view on mobile */
@@ -572,6 +580,15 @@
                 #filterman {
                     display: none;
                 }
+                
+
+
+
+                .popupButton {
+                    font-size: 14px; /* 모바일 환경에 맞는 폰트 크기 조정 */
+                    padding: 8px 16px; /* 버튼 내부 패딩 조정 */
+                }
+            
 
                 .job-gallery {
                     display: flex;
@@ -595,7 +612,7 @@
                     font-weight: bold; /* 회사명을 볼드체로 표시 */
                 }
                  .main-content {
-                    width: 100%;
+                    max-width:none;
                 }
 
 
@@ -607,7 +624,7 @@
 
                 .layout {
                     display: block;
-                    width:100vh;
+                    width:100%;
                     flex-direction: column; /* 요소들을 세로로 쌓음 */
                     align-items: stretch; /* 자식 요소들이 컨테이너 너비 전체를 차지하도록 함 */
                 
@@ -638,32 +655,34 @@
                 .job-card h3, .job-card p {
                     margin: 5px 0;
                 }
+                            /* 라이트 모드에서의 버튼 스타일 */
+
             }
 
 
-            /* 라이트 모드에서의 버튼 스타일 */
             body[data-theme='light'] #floatingButton .popupButton {
-                background-color: 	#efb4f64f;
-                color: rgb(0, 0, 0);
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                text-align: center;
-                font-size: 16px;
-                cursor: pointer;
-            }
+                    background-color: 	#efb4f64f;
+                    color: rgb(0, 0, 0);
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    text-align: center;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
 
-            /* 다크 모드에서의 버튼 스타일 */
-            body[data-theme='dark'] #floatingButton .popupButton {
-                background-color: 	#efb4f64f;
-                color: #ffffff;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                text-align: center;
-                font-size: 16px;
-                cursor: pointer;
-            }
+                /* 다크 모드에서의 버튼 스타일 */
+                body[data-theme='dark'] #floatingButton .popupButton {
+                    background-color: 	#efb4f64f;
+                    color: #ffffff;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    text-align: center;
+                    font-size: 16px;
+                    cursor: pointer;
+                }
+
 
             /* 라이트 모드에서 로딩 인디케이터 텍스트 색상 */
             body[data-theme='light'] #loadingIndicator {
@@ -742,7 +761,7 @@
             </table>
             <!-- 플로팅 아이콘 -->
             <!-- 팝업 버튼 -->
-            <div id="floatingButton" style="position: fixed; bottom: 20px; right: 20px; cursor: pointer; z-index: 1000;">
+            <div id="floatingButton">
                 <button class="popupButton">아쉬운 점을 알려주세요!!</button>
             </div>
 
