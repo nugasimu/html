@@ -16,14 +16,27 @@
             gtag('config', 'G-LRB4GCFXXC');
         </script>
         <script>
-            // 사용자의 테마 선호도를 확인하고 적용하는 스크립트
-            (function() {
-                // localStorage에서 테마 상태를 가져옵니다. 없으면 시스템 테마 설정을 따릅니다.
-                var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                // body 태그에 data-theme 속성을 설정하여 초기 테마를 적용합니다.
-                document.body.setAttribute('data-theme', theme);
-            })();
-        
+
+            document.addEventListener('DOMContentLoaded', function() {
+                    loadTheme(); // 테마 설정 로드
+                    toggleDisplayBasedOnWidth();
+                    document.getElementById('floatingButton').addEventListener('click', showPopup);
+                    document.querySelector('.close-button').addEventListener('click', hidePopup);
+                });
+
+            function loadTheme() {
+                const themeSwitch = document.querySelector('#checkbox');
+                // localStorage에서 테마 상태를 가져오거나 시스템 설정을 따름
+                const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.body.setAttribute('data-theme', theme); // 초기 테마 설정
+                themeSwitch.checked = (theme === 'dark'); // 스위치 상태 설정
+
+                themeSwitch.addEventListener('change', function() {
+                    document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
+                    localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+                });
+            }
+
             function showPopup() {
                 document.getElementById('tallyPopup').style.display = 'block'; // 팝업을 보이게 설정
             }
@@ -50,28 +63,13 @@
 
 
             window.onload = function() {
+
                 toggleDisplayBasedOnWidth();
-                // 팝업 버튼 클릭 이벤트 리스너 추가
                 document.getElementById('floatingButton').addEventListener('click', showPopup);        
                 document.querySelector('.close-button').addEventListener('click', hidePopup);
             };
 
-                    // 테마 설정 로드 함수
-            function loadTheme() {
-                const themeSwitch = document.querySelector('#checkbox');
-                themeSwitch.addEventListener('change', function () {
-                    document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
-                    localStorage.setItem('theme', this.checked ? 'dark' : 'light');
-                });
-
-                if(localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    themeSwitch.checked = true;
-                    document.body.setAttribute('data-theme', 'dark');
-                } else {
-                    themeSwitch.checked = false;
-                    document.body.setAttribute('data-theme', 'light');
-                }
-            }
+                    // 테마 설정 로드 함
         </script>
         
         <style>
@@ -642,21 +640,11 @@
                 }
             }
 
-            #floatingButton .popupButton{
-                background-color: 	#efb4f64f;
-                color: black;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                text-align: center;
-                font-size: 16px;
-                cursor: pointer;
-            
-            }
+
             /* 라이트 모드에서의 버튼 스타일 */
-            body[data-theme='light'] #floatingbutton .popupButton {
+            body[data-theme='light'] #floatingButton .popupButton {
                 background-color: 	#efb4f64f;
-                color: white;
+                color: rgb(0, 0, 0);
                 padding: 10px 20px;
                 border: none;
                 border-radius: 5px;
@@ -666,7 +654,7 @@
             }
 
             /* 다크 모드에서의 버튼 스타일 */
-            body[data-theme='dark'] #floatingbutton .popupButton {
+            body[data-theme='dark'] #floatingButton .popupButton {
                 background-color: 	#efb4f64f;
                 color: #ffffff;
                 padding: 10px 20px;
@@ -675,6 +663,16 @@
                 text-align: center;
                 font-size: 16px;
                 cursor: pointer;
+            }
+
+            /* 라이트 모드에서 로딩 인디케이터 텍스트 색상 */
+            body[data-theme='light'] #loadingIndicator {
+                color: #000; /* 검은색 */
+            }
+
+            /* 다크 모드에서 로딩 인디케이터 텍스트 색상 */
+            body[data-theme='dark'] #loadingIndicator {
+                color: #fff; /* 흰색 */
             }
             
 
@@ -1079,48 +1077,15 @@
     }
 
 
-    window.onload = function() {
         loadJobs();
         // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
 
-        
-        document.getElementById('floatingButton').addEventListener('click', function() {
-            document.getElementById('tallyPopup').style.display = 'block';
-        });
-
-        // 팝업 내의 닫기 버튼에 클릭 이벤트 리스너 추가
-        document.querySelector('.close-button').addEventListener('click', function() {
-            document.getElementById('tallyPopup').style.display = 'none';
-        });
-    };
 
 
 
-    function loadTheme() {
-        const themeSwitch = document.querySelector('#checkbox');
-        const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
 
-        if (currentTheme) {
-            document.body.setAttribute('data-theme', currentTheme);
 
-            if (currentTheme === 'dark') {
-                themeSwitch.checked = true;
-            } else {
-                themeSwitch.checked = false;
-            }
-        }
 
-        // 테마 변경 이벤트 리스너 설정
-        themeSwitch.addEventListener('change', function () {
-            if(this.checked) {
-                document.body.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                document.body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    }
 
     function adjustDomainFilterWidth() {
         // 테이블 요소 선택
@@ -1132,17 +1097,8 @@
         var tableWidth = table.offsetWidth;
 
     }
-     //테마 전환
-    /*const themeSwitch = document.getElementById('checkbox');*/
-    const switchLabel = document.querySelector('.theme-switch');
-    const themeSwitch = document.querySelector('#checkbox');
-    themeSwitch.addEventListener('change', function () {
-        document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
-        localStorage.setItem('theme', this.checked ? 'dark' : 'light');
-    });
 
 
-    // 페이지 로드 시 localStorage에서 테마 상태를 확인하고 적용
 
 </script>
 </body>
