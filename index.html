@@ -23,9 +23,6 @@
                 // body 태그에 data-theme 속성을 설정하여 초기 테마를 적용합니다.
                 document.body.setAttribute('data-theme', theme);
             })();
-        </script>
-        <script>
-            // 기존 스크립트 ...
         
             function showPopup() {
                 document.getElementById('tallyPopup').style.display = 'block'; // 팝업을 보이게 설정
@@ -34,18 +31,47 @@
             function hidePopup() {
                 document.getElementById('tallyPopup').style.display = 'none'; // 팝업을 숨김
             }
-        
+                // 화면 크기에 따라 적절한 디스플레이 설정을 조정하는 함수
+            function toggleDisplayBasedOnWidth() {
+                if (window.innerWidth <= 768) {
+                    document.getElementById('jobGallery').style.display = 'flex';
+                    document.getElementById('jobTable').style.display = 'none';
+                    document.getElementById('filterman').style.display = 'none';
+                } else {
+                    document.getElementById('jobGallery').style.display = 'none';
+                    document.getElementById('jobTable').style.display = 'table';
+                    document.getElementById('filterman').style.display = 'block';
+                }
+            }
+
+                    // DOM이 로드되었을 때와 창 크기가 변경될 때 함수를 호출합니다.
+            window.addEventListener('DOMContentLoaded', toggleDisplayBasedOnWidth);
+            window.addEventListener('resize', toggleDisplayBasedOnWidth);
+
+
             window.onload = function() {
-                // 기존 onload 이벤트 핸들러 코드...
-        
+                toggleDisplayBasedOnWidth();
                 // 팝업 버튼 클릭 이벤트 리스너 추가
-                document.getElementById('floatingButton').addEventListener('click', showPopup);
-        
-                // 팝업 내의 닫기 버튼에 클릭 이벤트 리스너 추가
-                // '닫기' 버튼이 여러 개일 경우 각각에 대해 이벤트 리스너를 추가해야 합니다.
-                // 이 예시에서는 닫기 버튼이 하나만 있다고 가정합니다.
+                document.getElementById('floatingButton').addEventListener('click', showPopup);        
                 document.querySelector('.close-button').addEventListener('click', hidePopup);
             };
+
+                    // 테마 설정 로드 함수
+            function loadTheme() {
+                const themeSwitch = document.querySelector('#checkbox');
+                themeSwitch.addEventListener('change', function () {
+                    document.body.setAttribute('data-theme', this.checked ? 'dark' : 'light');
+                    localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+                });
+
+                if(localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    themeSwitch.checked = true;
+                    document.body.setAttribute('data-theme', 'dark');
+                } else {
+                    themeSwitch.checked = false;
+                    document.body.setAttribute('data-theme', 'light');
+                }
+            }
         </script>
         
         <style>
@@ -60,6 +86,7 @@
                 max-width: 1400px;
                 min-height: 100vh;
                 margin: auto; /*가운데정렬*/
+                
             }
 
             /* 기본 스타일 */
@@ -544,12 +571,16 @@
                 #jobTable {
                     display: none;
                 }
+                #filterman {
+                    display: none;
+                }
 
                 .job-gallery {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     padding: 10px;
+                    width:100%; 
                 }
 
                 .job-card {
@@ -560,10 +591,16 @@
                     padding: 10px;
                     width: 100%;
                     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                
                 }
                 .job-card .job-company {
                     font-weight: bold; /* 회사명을 볼드체로 표시 */
                 }
+                 .main-content {
+                    width: 100%;
+                }
+
+
 
 
                 .job-card h3, .job-card p {
@@ -579,6 +616,7 @@
                 }
                 .notice-box {
                     padding: 10px; /* 모바일 환경에서 패딩 축소 */
+                    width: 100%;
                 }
             }
             @media (min-width: 769px) {
@@ -603,8 +641,20 @@
                     margin: 5px 0;
                 }
             }
+
+            #floatingButton .popupButton{
+                background-color: 	#efb4f64f;
+                color: black;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 16px;
+                cursor: pointer;
+            
+            }
             /* 라이트 모드에서의 버튼 스타일 */
-            body[data-theme='light'] .popupButton {
+            body[data-theme='light'] #floatingbutton .popupButton {
                 background-color: 	#efb4f64f;
                 color: white;
                 padding: 10px 20px;
@@ -616,7 +666,7 @@
             }
 
             /* 다크 모드에서의 버튼 스타일 */
-            body[data-theme='dark'] .popupButton {
+            body[data-theme='dark'] #floatingbutton .popupButton {
                 background-color: 	#efb4f64f;
                 color: #ffffff;
                 padding: 10px 20px;
@@ -635,8 +685,7 @@
         </style>
         
     </head>
-    <body>
-
+<body>
 <main class="container">
          <!-- 테마 전환 버튼 -->
     <div class="theme-switch-wrapper">
@@ -1029,23 +1078,9 @@
 
     }
 
-    function toggleDisplayBasedOnWidth() {
-        if (window.innerWidth <= 768) {
-            document.getElementById('jobGallery').style.display = 'flex';
-            document.getElementById('jobTable').style.display = 'none';
-            document.getElementById('filterman').style.display = 'none';
-
-        } else {
-            document.getElementById('jobGallery').style.display = 'none';
-            document.getElementById('jobTable').style.display = 'table'
-            document.getElementById('filterman').style.display = 'block';
-        }
-    }
 
     window.onload = function() {
         loadJobs();
-        loadTheme();
-        toggleDisplayBasedOnWidth(); // 화면 크기에 따라 적절한 디스플레이 설정
         // 도메인 필터 섹션의 너비를 테이블의 너비와 동일하게 설정
 
         
@@ -1057,21 +1092,8 @@
         document.querySelector('.close-button').addEventListener('click', function() {
             document.getElementById('tallyPopup').style.display = 'none';
         });
-    
-
-        
-
-    // 테마 설정
-        const themeSwitch = document.querySelector('#checkbox');
-        if(localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            themeSwitch.checked = true;
-            document.body.setAttribute('data-theme', 'dark');
-        } else {
-            themeSwitch.checked = false;
-            document.body.setAttribute('data-theme', 'light');
-        }
     };
-    window.onresize = toggleDisplayBasedOnWidth;
+
 
 
     function loadTheme() {
